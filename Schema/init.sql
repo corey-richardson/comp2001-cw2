@@ -61,3 +61,20 @@ CREATE TABLE "CW2.TrailFeature" (
     ON DELETE SET NULL ON UPDATE CASCADE,
     UNIQUE("trail_id", "feature_id")
 );
+
+-- Trigger to ensure self-referencing Point FK doesn't create a loop
+CREATE TRIGGER EnsurePointIsntLooping ON "CW2.Point"
+AFTER INSERT UPDATE
+AS
+BEGIN
+    IF EXISTS (
+        SELECT 1
+        FROM inserted
+        WHERE inserted.id = inserted.next_point_id
+        OR    inserted.id = inserted.previous_point_id
+        OR    inserted.previous_point_id = inserted.next_point_id
+    )
+    BEGIN
+        ROLLBACK TRANSACTION;
+    END
+END;
