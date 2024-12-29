@@ -8,14 +8,19 @@ from flask_marshmallow import Marshmallow
 basedir = pathlib.Path(__file__).parent.resolve()
 connex_app = connexion.App(__name__, specification_dir=basedir)
 
+server = "DIST-6-505.uopnet.plymouth.ac.uk"
+database = 'COMP2001_CRichardson'
+username = "CRichardson"
+password = "BssN103*"
+
 app = connex_app.app
 app.config["SQLALCHEMY_DATABASE_URI"] = (
     "mssql+pyodbc:///?odbc_connect="
     "DRIVER={ODBC Driver 17 for SQL Server};"
-    "SERVER=host.docker.internal;"
-    "DATABASE=COMP2001_CRichardson;"
-    "UID=SA;"
-    "PWD=C0mp2001!;"
+    f"SERVER={server};"
+    f"DATABASE={database};"
+    f"UID={username};"
+    f"PWD={password};"
     "TrustServerCertificate=yes;"
     "Encrypt=yes;"
 )
