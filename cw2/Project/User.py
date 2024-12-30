@@ -2,9 +2,11 @@ from authentication import authenticate
 from config import db
 from models import User, UserSchema, Trail, TrailSchema, Point, PointSchema, TrailFeature, TrailFeatureSchema, Feature, FeatureSchema
 
-from flask import abort, make_response
+from flask import abort, make_response, request
 
-def create(user):
+def create():
+    user = request.get_json()
+    
     required_fields = ["email", "role"]
     missing_fields = [field for field in required_fields if not user.get(field)]
     if missing_fields:
@@ -31,10 +33,14 @@ def read_all():
     return UserSchema(many = True).dump(users), 200
 
 
-def update(user_id, user):
+def update(user_id,):
+    user = request.get_json()
     existing_user = User.query.get_or_404(user_id)
+    
     for key, value in user.items():
-        setattr(existing_user, key, value)
+        if hasattr(existing_user, key):
+            setattr(existing_user, key, value)
+        
     db.session.commit()
     return UserSchema().dump(existing_user), 201
 
