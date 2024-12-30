@@ -85,6 +85,7 @@ components:
             - "USER"
 
   parameters:
+
     trail_id:
       name: "trail_id"
       description: "ID of the trail."
@@ -93,8 +94,18 @@ components:
       schema:
         type: "integer"
 
+    user_id:
+      name: "user_id"
+      description: "ID of the user."
+      in: "path"
+      required: true
+      schema:
+        type: "integer"
+
 paths:
+
   /trail:
+
     post:
       operationId: "Trail.create"
       tags:
@@ -127,6 +138,7 @@ paths:
           description: "Successfully read trail list"
 
   /trail/{trail_id}:
+
     get:
       tags:
         - "Trail"
@@ -141,6 +153,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Trail"
+
     put:
       tags:
         - "Trail"
@@ -160,6 +173,7 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/Trail"
+
     delete:
       tags:
         - "Trail"
@@ -170,3 +184,84 @@ paths:
       responses:
         "204":
           description: "Successfully deleted trail"
+
+  /user:
+  
+    post:
+      operationId: "User.create"
+      tags:
+        - "User"
+      summary: "Create a user"
+      requestBody:
+        description: "User to create"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        "201":
+          description: "User created successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          description: "Validation error"
+    
+    get:
+      operationId: "User.read_all"
+      tags:
+        - "User"
+      summary: "Read the list of users"
+      responses:
+        "200":
+          description: "Successfully read user list"
+
+  /user/{user_id}:
+
+    get:
+      tags:
+        - "User"
+      operationId: "User.read_one"
+      summary: "Read one user"
+      parameters:
+        - $ref: "#/components/parameters/user_id"
+      responses:
+        "200":
+          description: "Successfully read user"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+
+    put:
+      tags:
+        - "User"
+      operationId: "User.update"
+      summary: "Update a user"
+      parameters:
+        - $ref: "#/components/parameters/user_id"
+      responses:
+        "200":
+          description: "Successfully updated user"
+        "400":
+          description: "Validation error"
+        "404":
+          description: "User not found"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+
+    delete:
+      tags:
+        - "User"
+      operationId: "User.delete"
+      summary: "Delete a user"
+      parameters:
+        - $ref: "#/components/parameters/user_id"
+      responses:
+        "204":
+          description: "Successfully deleted user"
