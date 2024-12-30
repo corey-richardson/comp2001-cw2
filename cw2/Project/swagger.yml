@@ -15,6 +15,7 @@ components:
         - name
         - summary
         - description
+        - difficulty
         - location
         - length
         - elevation_gain
@@ -38,6 +39,13 @@ components:
         description:
           type: string
           description: "Detailed description of the trail."
+        difficulty:
+          type: string
+          description: "The difficulty level of the trail."
+          enum:
+            - "Easy"
+            - "Moderate"
+            - "Hard"
         location:
           type: string
           description: "Location of the trail."

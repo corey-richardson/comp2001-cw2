@@ -50,6 +50,7 @@ class Trail(db.Model):
     name = db.Column(db.String(255), nullable = False)
     summary = db.Column(db.String(255), nullable = False)
     description = db.Column(db.Text, nullable = False)
+    difficulty = db.Column(db.String(9), nullable = False)
     location = db.Column(db.String(255), nullable = False)
     length = db.Column(db.Float, nullable = False)
     elevation_gain = db.Column(db.Integer, nullable = False)

@@ -13,6 +13,7 @@ CREATE TABLE CW2.Trail (
     name VARCHAR(255) NOT NULL,
     summary VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
+    difficulty VARCHAR(9) NOT NULL,
     location VARCHAR(255) NOT NULL,
     length FLOAT(6) NOT NULL,
     elevation_gain INT NOT NULL,

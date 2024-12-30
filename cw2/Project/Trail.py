@@ -11,7 +11,7 @@ def create(trail):
     starting_point_id = trail.get("starting_point_id")
     
     ## All required (non-nullable) fields are present
-    required_fields = ["name", "summary", "description", "location", "length", "elevation_gain", "route_type"]
+    required_fields = ["name", "summary", "description", "difficulty", "location", "length", "elevation_gain", "route_type"]
     missing_fields = [field for field in required_fields if not trail.get(field)]
     if missing_fields:
         abort(400, f"Missing required fields: {', '.join(missing_fields)}")
