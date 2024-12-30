@@ -4,8 +4,47 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>RP Flask REST API</title>
+        <style>
+            body {
+                font-family: 'Lucida Sans', 'Lucida Sans Unicode';
+                background-color: #f4f4f9;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 75vh;
+                text-align: center;
+            }
+
+            .container {
+                max-width: 800px;
+                padding: 20px;
+                background-color: #fff;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                padding: 30px;
+            }
+
+            a {
+                text-decoration: none;
+                color: blue;
+                
+            }
+
+            a:hover {
+                font-weight: bold;
+                background-color: lightslategray;
+                padding: 10px;
+                border-radius: 5px;
+            }
+        </style>
     </head>
     <body>
-        <h1>Hello world!</h1>
+        <div class="container">
+            <h1>COMP2000 CW2 API</h1>
+            <h5>Corey Richardson</h5>
+            <p>This API provides access to trail management services.</p>
+            <br>
+            <a href="/api/ui">Open Swagger UI</a>
+        </div>
     </body>
 </html>
