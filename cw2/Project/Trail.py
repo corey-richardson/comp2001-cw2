@@ -37,8 +37,8 @@ def create(trail):
     return TrailSchema().dump(new_trail), 201
         
         
-def read_one(id):
-    trail = Trail.query.get_or_404(id)
+def read_one(trail_id):
+    trail = Trail.query.get_or_404(trail_id)
     return TrailSchema().dump(trail), 200
     
 
@@ -47,16 +47,16 @@ def read_all():
     return TrailSchema(many = True).dump(trails), 200
 
 
-def update(id, trail):
-    existing_trail = Trail.query.get_or_404(id)
+def update(trail_id, trail):
+    existing_trail = Trail.query.get_or_404(trail_id)
     for key, value in trail.items():
         setattr(existing_trail, key, value)
     db.session.commit()
     return TrailSchema().dump(existing_trail), 201
     
 
-def delete(id):
-    existing_trail = Trail.query.get_or_404(id)
+def delete(trail_id):
+    existing_trail = Trail.query.get_or_404(trail_id)
     db.session.delete(existing_trail)
     db.session.commit()
     return make_response(f"Trail with ID {id} deleted.", 204)

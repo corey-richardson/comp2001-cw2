@@ -6,11 +6,11 @@ from marshmallow_sqlalchemy import fields
 from marshmallow import fields, validates
           
 class Point(db.Model):
-    __tablename__ = "Point"
+    __tablename__ = "CW2.Point"
     
     id = db.Column(db.Integer, primary_key = True, autoincrement = True)
-    next_point_id = db.Column(db.Integer, db.ForeignKey("Point.id"), nullable = True)
-    previous_point_id = db.Column(db.Integer, db.ForeignKey("Point.id"), nullable = True)
+    next_point_id = db.Column(db.Integer, db.ForeignKey("CW2.Point.id"), nullable = True)
+    previous_point_id = db.Column(db.Integer, db.ForeignKey("CW2.Point.id"), nullable = True)
     latitude = db.Column(db.Numeric(9, 6), nullable = False)
     longitude = db.Column(db.Numeric(9, 6), nullable = False)
     description = db.Column(db.String(127), nullable = True)
@@ -42,11 +42,11 @@ class PointSchema(ma.SQLAlchemyAutoSchema):
        
 
 class Trail(db.Model):
-    __tablename__ = "Trail"
-    
+    __tablename__ = "CW2.Trail"
+        
     id = db.Column(db.Integer, primary_key = True, autoincrement = True)
-    author_id = db.Column(db.Integer, db.ForeignKey("User.id"), nullable = True)
-    starting_point_id = db.Column(db.Integer, db.ForeignKey("Point.id"), nullable = True)
+    author_id = db.Column(db.Integer, db.ForeignKey("CW2.User.id"), nullable = True)
+    starting_point_id = db.Column(db.Integer, db.ForeignKey("CW2.Point.id"), nullable = True)
     name = db.Column(db.String(255), nullable = False)
     summary = db.Column(db.String(255), nullable = False)
     description = db.Column(db.Text, nullable = False)
@@ -77,7 +77,7 @@ class TrailSchema(ma.SQLAlchemyAutoSchema):
         
           
 class User(db.Model):
-    __tablename__ = "User"
+    __tablename__ = "CW2.User"
     
     id = db.Column(db.Integer, primary_key = True, autoincrement = True)
     email = db.Column(db.String(255), nullable = False, unique = True)
@@ -94,10 +94,10 @@ class UserSchema(ma.SQLAlchemyAutoSchema):
       
 
 class TrailFeature(db.Model):
-    __tablename__ = "TrailFeature"
+    __tablename__ = "CW2.TrailFeature"
     
-    trail_id = db.Column(db.Integer, db.ForeignKey("Trail.id"), primary_key = True, nullable = False)
-    feature_id = db.Column(db.Integer, db.ForeignKey("Feature.id"), primary_key = True, nullable = False)
+    trail_id = db.Column(db.Integer, db.ForeignKey("CW2.Trail.id"), primary_key = True, nullable = False)
+    feature_id = db.Column(db.Integer, db.ForeignKey("CW2.Feature.id"), primary_key = True, nullable = False)
 
     trail = db.relationship("Trail", backref = db.backref("trail_features", lazy = True))
     
@@ -113,7 +113,7 @@ class TrailFeatureSchema(ma.SQLAlchemyAutoSchema):
     
             
 class Feature(db.Model):
-    __tablename__ = "Feature"
+    __tablename__ = "CW2.Feature"
     
     id = db.Column(db.Integer, primary_key = True, autoincrement = True)
     feature = db.Column(db.String(255), nullable = False)

@@ -40,8 +40,8 @@ def create(point):
     return PointSchema().dump(new_point), 201
 
 
-def read_one(id):
-    point = Point.query.get_or_404(id)
+def read_one(point_id):
+    point = Point.query.get_or_404(point_id)
     return PointSchema().dump(point), 200
     
 
@@ -50,16 +50,16 @@ def read_all():
     return PointSchema(many = True).dump(points), 200
 
 
-def update(id, point):
-    existing_point = Point.query.get_or_404(id)
+def update(point_id, point):
+    existing_point = Point.query.get_or_404(point_id)
     for key, value in point.items():
         setattr(existing_point, key, value)
     db.session.commit()
     return PointSchema().dump(existing_point), 201
     
 
-def delete(id):
+def delete(point_id):
     existing_point = Point.query.get_or_404(id)
     db.session.delete(existing_point)
     db.session.commit()
-    return make_response(f"Point with ID {id} deleted.", 204)
+    return make_response(f"Point with ID {point_id} deleted.", 204)

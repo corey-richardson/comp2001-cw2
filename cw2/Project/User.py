@@ -21,8 +21,8 @@ def create(user):
     return UserSchema().dump(new_user), 201
 
 
-def read_one(id):
-    user = User.query.get_or_404(id)
+def read_one(user_id):
+    user = User.query.get_or_404(user_id)
     return UserSchema().dump(user), 200
 
     
@@ -31,16 +31,16 @@ def read_all():
     return UserSchema(many = True).dump(users), 200
 
 
-def update(id, user):
-    existing_user = User.query.get_or_404(id)
+def update(user_id, user):
+    existing_user = User.query.get_or_404(user_id)
     for key, value in user.items():
         setattr(existing_user, key, value)
     db.session.commit()
     return UserSchema().dump(existing_user), 201
 
     
-def delete(id):
-    existing_user = User.query.get_or_404(id)
+def delete(user_id):
+    existing_user = User.query.get_or_404(user_id)
     db.session.delete(existing_user)
     db.session.commit()
-    return make_response(f"User with ID {id} deleted.", 204)
+    return make_response(f"User with ID {user_id} deleted.", 204)
