@@ -65,6 +65,25 @@ components:
             - "Point to point"
       description: "A trail that describes a route with various properties. Combination of name and location must be unique."
 
+    User:
+      type: object
+      required:
+        - email
+        - role
+      properties:
+        id:
+          type: integer
+          description: "Unique identifier for the user."
+        email:
+          type: string
+          description: "Email address of the user"
+        role:
+          type: string
+          description: "The users access level."
+          enum:
+            - "ADMIN"
+            - "USER"
+
   parameters:
     trail_id:
       name: "trail_id"
