@@ -1,13 +1,15 @@
 from authentication import authenticate
 from config import db
 from models import User, UserSchema, Trail, TrailSchema, Point, PointSchema, TrailFeature, TrailFeatureSchema, Feature, FeatureSchema
-from flask import abort, make_response
+from flask import abort, make_response, request
 
-def create(point):
+def create():
+    point = request.get_json()
+    
     next_point_id = point.get("next_point_id")
     previous_point_id = point.get("previous_point_id")
     description = point.get("description")
-    
+        
     required_fields = ["latitude", "longitude"]
     missing_fields = [field for field in required_fields if not point.get(field)]
     if missing_fields:
@@ -50,12 +52,16 @@ def read_all():
     return PointSchema(many = True).dump(points), 200
 
 
-def update(point_id, point):
+def update(point_id):
+    point = request.get_json()
     existing_point = Point.query.get_or_404(point_id)
+    
     for key, value in point.items():
-        setattr(existing_point, key, value)
+        if hasattr(existing_point, key):
+            setattr(existing_point, key, value)
+    
     db.session.commit()
-    return PointSchema().dump(existing_point), 201
+    return PointSchema().dump(existing_point), 200
     
 
 def delete(point_id):

@@ -12,9 +12,6 @@ components:
 
     Point:
       type: object
-      required:
-        - latitude
-        - longitude
       properties:
         id:
           type: integer
@@ -55,9 +52,11 @@ components:
         author_id:
           type: integer
           description: "Unique identifier for the author of the trail."
+          nullable: true
         starting_point_id:
           type: integer
           description: "Unique identifier for the starting point of the trail."
+          nullable: true
         name:
           type: string
           description: "Name of the trail."

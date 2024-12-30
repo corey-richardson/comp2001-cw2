@@ -2,13 +2,15 @@ from authentication import authenticate
 from config import db
 from models import User, UserSchema, Trail, TrailSchema, Point, PointSchema, TrailFeature, TrailFeatureSchema, Feature, FeatureSchema
 
-from flask import abort, make_response
+from flask import abort, make_response, request
 
 # https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client_error_responses
 
-def create(trail):
-    author_id = trail.get("author_id")
-    starting_point_id = trail.get("starting_point_id")
+def create():
+    trail = request.get_json()
+    
+    author_id = trail.get("author_id", None)
+    starting_point_id = trail.get("starting_point_id", None)
     
     ## All required (non-nullable) fields are present
     required_fields = ["name", "summary", "description", "difficulty", "location", "length", "elevation_gain", "route_type"]
@@ -17,17 +19,20 @@ def create(trail):
         abort(400, f"Missing required fields: {', '.join(missing_fields)}")
 
     # Fetch related objects and check they exists (FK constraint)
-    author = User.query.get(author_id)
-    starting_point = Point.query.get(starting_point_id)
-    if not author:
-        abort(404, f"User not found for Author ID: {author_id}")
-    if not starting_point:
-        abort(404, f"Point not found for Point ID: {starting_point}")
-
+    if author_id:
+        author = User.query.get(author_id)
+        if not author:
+            abort(404, f"User not found for Author ID: {author_id}")
+    if starting_point_id:
+        starting_point = Point.query.get(starting_point_id)
+        if not starting_point:
+            abort(404, f"Point not found for Point ID: {starting_point}")
+        
     # Create new trail
     try:        
         new_trail = TrailSchema().load(trail, session = db.session)
-        author_id.trails.append(new_trail)
+                
+        # author_id.trails.append(new_trail)
         db.session.add(new_trail)
         db.session.commit()
     except Exception as e:
@@ -47,7 +52,9 @@ def read_all():
     return TrailSchema(many = True).dump(trails), 200
 
 
-def update(trail_id, trail):
+def update(trail_id):
+    trail = request.get_json()
+    
     existing_trail = Trail.query.get_or_404(trail_id)
     for key, value in trail.items():
         setattr(existing_trail, key, value)

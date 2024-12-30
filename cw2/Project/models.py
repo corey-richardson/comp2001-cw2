@@ -15,6 +15,9 @@ class Point(db.Model):
     longitude = db.Column(db.Numeric(9, 6), nullable = False)
     description = db.Column(db.String(127), nullable = True)
     
+    # latitude = fields.Float(required=False)  # Make latitude optional
+    # longitude = fields.Float(required=False)  # Make longitude optional
+    
     next_point = db.relationship(
         "Point", remote_side=[id], foreign_keys=[next_point_id], backref="previous_points"
     )
@@ -28,6 +31,9 @@ class PointSchema(ma.SQLAlchemyAutoSchema):
         model = Point
         load_instance = True
         sqla_session = db.session
+    
+    next_point_id = fields.Integer()
+    previous_point_id = fields.Integer()
         
     # https://docs.sqlalchemy.org/en/20/orm/mapped_attributes.html
     @validates("latitude")
@@ -56,7 +62,7 @@ class Trail(db.Model):
     elevation_gain = db.Column(db.Integer, nullable = False)
     route_type = db.Column(db.String(15), nullable = False)
     
-    # author = db.relationship("User", back_populates = "trails")
+    # author = db.relationship("User", backref = "trails")
     starting_point = db.relationship("Point", foreign_keys = [starting_point_id])
     
 
@@ -65,8 +71,9 @@ class TrailSchema(ma.SQLAlchemyAutoSchema):
         model = Trail
         load_instance = True
         sqla_session = db.session
-        
-    author_id = fields.Integer(required = True)
+    
+    author_id = fields.Int(allow_none=True)
+    starting_point_id = fields.Int(allow_none=True)
     
     # https://docs.sqlalchemy.org/en/20/orm/mapped_attributes.html
     @validates("route_type")

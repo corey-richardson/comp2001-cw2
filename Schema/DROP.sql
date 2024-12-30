@@ -1,4 +1,4 @@
-DROP TRIGGER "CW2.EnsurePointIsntLooping";
+-- DROP TRIGGER "CW2.EnsurePointIsntLooping";
 
 DROP TABLE "CW2.TrailFeature";
 DROP TABLE "CW2.Feature";
