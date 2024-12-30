@@ -9,6 +9,34 @@ servers:
 
 components:
   schemas:
+
+    Point:
+      type: object
+      required:
+        - latitude
+        - longitude
+      properties:
+        id:
+          type: integer
+          description: "Unique identifier for the point."
+        next_point_id:
+          type: integer
+          description: "Unique identifier for the next point. Points follow a doubly-linked list structure."
+        previous_point_id:
+          type: integer
+          description: "Unique identifier for the previous point. Points follow a doubly-linked list structure."
+        latitude:
+          type: number
+          format: float
+          description: "Latitude of the point."
+        longitude:
+          type: number
+          format: float
+          description: "Longitude of the point."
+        description:
+          type: string
+          description: "Description of the point."
+
     Trail:
       type: object
       required:
@@ -186,7 +214,7 @@ paths:
           description: "Successfully deleted trail"
 
   /user:
-  
+
     post:
       operationId: "User.create"
       tags:
