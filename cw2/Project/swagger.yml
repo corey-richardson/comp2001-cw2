@@ -1,12 +1,145 @@
 openapi: 3.0.0
 info:
   title: "COMP2000 CW2 API"
-  description:  "Trail Service API developed for COMP2000 CW2 by Corey Richardson"
+  description: "Trail Service API developed for COMP2000 CW2 by Corey Richardson"
   version: "1.0.0"
 
 servers:
   - url: "/api"
 
 components:
+  schemas:
+    Trail:
+      type: object
+      required:
+        - name
+        - summary
+        - description
+        - location
+        - length
+        - elevation_gain
+        - route_type
+      properties:
+        id:
+          type: integer
+          description: "Unique identifier for the trail."
+        author_id:
+          type: integer
+          description: "Unique identifier for the author of the trail."
+        starting_point_id:
+          type: integer
+          description: "Unique identifier for the starting point of the trail."
+        name:
+          type: string
+          description: "Name of the trail."
+        summary:
+          type: string
+          description: "Short summary of the trail."
+        description:
+          type: string
+          description: "Detailed description of the trail."
+        location:
+          type: string
+          description: "Location of the trail."
+        length:
+          type: number
+          format: float
+          description: "Length of the trail."
+        elevation_gain:
+          type: integer
+          description: "Elevation gain over the course of the trail."
+        route_type:
+          type: string
+          description: "Type of route that the trail is."
+          enum:
+            - "Loop"
+            - "Out & back"
+            - "Point to point"
+      description: "A trail that describes a route with various properties. Combination of name and location must be unique."
+
+  parameters:
+    trail_id:
+      name: "trail_id"
+      description: "ID of the trail."
+      in: "path"
+      required: true
+      schema:
+        type: "integer"
 
 paths:
+  /trail:
+    post:
+      operationId: "Trail.create"
+      tags:
+        - "Trail"
+      summary: "Create a trail"
+      requestBody:
+        description: "Trail to create"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Trail"
+      responses:
+        "201":
+          description: "Trail created successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Trail"
+        "400":
+          description: "Validation error"
+
+    get:
+      operationId: "Trail.read_all"
+      tags:
+        - "Trail"
+      summary: "Read the list of trails"
+      responses:
+        "200":
+          description: "Successfully read trail list"
+
+  /trail/{trail_id}:
+    get:
+      tags:
+        - "Trail"
+      operationId: "Trail.read_one"
+      summary: "Read one trail"
+      parameters:
+        - $ref: "#/components/parameters/trail_id"
+      responses:
+        "200":
+          description: "Successfully read trail"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Trail"
+    put:
+      tags:
+        - "Trail"
+      operationId: "Trail.update"
+      summary: "Update a trail"
+      parameters:
+        - $ref: "#/components/parameters/trail_id"
+      responses:
+        "200":
+          description: "Successfully updated trail"
+        "400":
+          description: "Validation error"
+        "404":
+          description: "Trail not found"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Trail"
+    delete:
+      tags:
+        - "Trail"
+      operationId: "Trail.delete"
+      summary: "Delete a trail"
+      parameters:
+        - $ref: "#/components/parameters/trail_id"
+      responses:
+        "204":
+          description: "Successfully deleted trail"
