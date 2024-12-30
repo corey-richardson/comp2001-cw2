@@ -1,6 +1,6 @@
 from authentication import authenticate
 from config import db
-from models import User, UserSchema, Trail, TrailSchema, Point, PointSchema
+from models import User, UserSchema, Trail, TrailSchema, Point, PointSchema, TrailFeature, TrailFeatureSchema, Feature, FeatureSchema
 
 from flask import abort, make_response
 

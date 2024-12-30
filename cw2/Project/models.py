@@ -91,3 +91,38 @@ class UserSchema(ma.SQLAlchemyAutoSchema):
         model = User
         load_instance = True
         sqla_session = db.session
+      
+
+class TrailFeature(db.Model):
+    __tablename__ = "TrailFeature"
+    
+    trail_id = db.Column(db.Integer, db.ForeignKey("Trail.id"), primary_key = True, nullable = False)
+    feature_id = db.Column(db.Integer, db.ForeignKey("Feature.id"), primary_key = True, nullable = False)
+
+    trail = db.relationship("Trail", backref = db.backref("trail_features", lazy = True))
+    
+
+class TrailFeatureSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = TrailFeature
+        load_instance = True
+        sqla_session = db.session
+
+    trail_id = fields.Integer(required = True)
+    feature_id = fields.Integer(required = True)
+    
+            
+class Feature(db.Model):
+    __tablename__ = "Feature"
+    
+    id = db.Column(db.Integer, primary_key = True, autoincrement = True)
+    feature = db.Column(db.String(255), nullable = False)
+    
+    trail_features = db.relationship("TrailFeature", backref = "feature", lazy = True)
+
+
+class FeatureSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = Feature
+        load_instance = True
+        sqla_session = db.session
