@@ -13,7 +13,7 @@ class Point(db.Model):
     previous_point_id = db.Column(db.Integer, db.ForeignKey("Point.id"), nullable = True)
     latitude = db.Column(db.Numeric(9, 6), nullable = False)
     longitude = db.Column(db.Numeric(9, 6), nullable = False)
-    description = db.Column(db.String(127))
+    description = db.Column(db.String(127), nullable = True)
     
     next_point = db.relationship(
         "Point", remote_side=[id], foreign_keys=[next_point_id], backref="previous_points"
