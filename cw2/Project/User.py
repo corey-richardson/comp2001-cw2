@@ -21,38 +21,25 @@ def create(user):
 
 
 def read_one(id):
-    user = User.query.get(id)
-    
-    if user is not None:
-        return UserSchema().dump(user), 200
-    
-    abort(404, f"User with ID {id} not found.")
-    
+    user = User.query.get_or_404(id)
+    return UserSchema().dump(user), 200
 
+    
 def read_all():
     users = User.query.all()
     return UserSchema(many = True).dump(users), 200
 
 
 def update(id, user):
-    existing_user = User.query.get(id)
-    
-    if existing_user:
-        for key, value in user.items():
-            setattr(existing_user, key, value)
-        db.session.commit()
-        return UserSchema().dump(existing_user), 201
-    
-    abort(404, f"User not found for ID: {id}")
-    
+    existing_user = User.query.get_or_404(id)
+    for key, value in user.items():
+        setattr(existing_user, key, value)
+    db.session.commit()
+    return UserSchema().dump(existing_user), 201
 
+    
 def delete(id):
-    existing_user = User.query.get(id)
-    
-    if existing_user:
-        db.session.delete(existing_user)
-        db.session.commit()
-        return make_response(f"User with ID {id} deleted.", 204)
-    
-    abort(404, f"User not found for ID: {id}")
-    
+    existing_user = User.query.get_or_404(id)
+    db.session.delete(existing_user)
+    db.session.commit()
+    return make_response(f"User with ID {id} deleted.", 204)

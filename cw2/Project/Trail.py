@@ -37,12 +37,8 @@ def create(trail):
         
         
 def read_one(id):
-    trail = Trail.query.get(id)
-    
-    if trail is not None:
-        return TrailSchema().dump(trail), 200
-    
-    abort(404, f"Trail with ID {id} not found.")
+    trail = Trail.query.get_or_404(id)
+    return TrailSchema().dump(trail), 200
     
 
 def read_all():
@@ -51,24 +47,15 @@ def read_all():
 
 
 def update(id, trail):
-    existing_trail = Trail.query.get(id)
-    
-    if existing_trail:
-        for key, value in trail.items():
-            setattr(existing_trail, key, value)
-        db.session.commit()
-        return TrailSchema.dump(existing_trail), 201
-    
-    abort(404, f"Trail not found for ID: {id}")
+    existing_trail = Trail.query.get_or_404(id)
+    for key, value in trail.items():
+        setattr(existing_trail, key, value)
+    db.session.commit()
+    return TrailSchema().dump(existing_trail), 201
     
 
 def delete(id):
-    existing_trail = Trail.query.get(id)
-    
-    if existing_trail:
-        db.session.delete(existing_trail)
-        db.session.commit()
-        return make_response(f"Trail with ID {id} deleted.", 204)
-    
-    abort(404, f"Trail not found for ID: {id}")
-    
+    existing_trail = Trail.query.get_or_404(id)
+    db.session.delete(existing_trail)
+    db.session.commit()
+    return make_response(f"Trail with ID {id} deleted.", 204)
