@@ -46,6 +46,7 @@ class Trail(db.Model):
     
     id = db.Column(db.Integer, primary_key = True, autoincrement = True)
     author_id = db.Column(db.Integer, db.ForeignKey("User.id"))
+    starting_point_id = db.Column(db.Integer, db.ForeignKey("Point.id"), nullable = True)
     name = db.Column(db.String(255), nullable = False)
     summary = db.Column(db.String(255), nullable = False)
     description = db.Column(db.Text, nullable = False)
@@ -53,7 +54,6 @@ class Trail(db.Model):
     length = db.Column(db.Float, nullable = False)
     elevation_gain = db.Column(db.Integer, nullable = False)
     route_type = db.Column(db.String(15), nullable = False)
-    starting_point_id = db.Column(db.Integer, db.ForeignKey("Point.id"), nullable = True)
     
     author = db.relationship("User", back_populates = "trails")
     starting_point = db.relationship("Point", foreign_keys = [starting_point_id])
