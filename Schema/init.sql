@@ -8,7 +8,7 @@ CREATE TABLE CW2.User (
 
 CREATE TABLE CW2.Trail (
     id INT PRIMARY KEY IDENTITY (1, 1),
-    author_id INT NOT NULL,
+    author_id INT,
     name VARCHAR(255) NOT NULL,
     summary VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
@@ -16,9 +16,13 @@ CREATE TABLE CW2.Trail (
     length FLOAT(6) NOT NULL,
     elevation_gain INT NOT NULL,
     route_type VARCHAR(15) NOT NULL,
+    starting_point_id INT,
 
     FOREIGN KEY (author_id) REFERENCES CW2.User (id)
     -- If author account gets deleted, set author to null
+    ON DELETE SET NULL ON UPDATE CASCADE,
+
+    FOREIGN KEY (starting_point_id) REFERENCES CW2.Point (id)
     ON DELETE SET NULL ON UPDATE CASCADE,
 
     CHECK (difficulty IN ('Easy', 'Moderate', 'Hard')),
