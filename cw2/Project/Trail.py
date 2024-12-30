@@ -28,6 +28,7 @@ def create(trail):
     try:        
         new_trail = TrailSchema().load(trail, session = db.session)
         author_id.trails.append(new_trail)
+        db.session.add(new_trail)
         db.session.commit()
     except Exception as e:
         db.session.rollback()

@@ -12,6 +12,7 @@ def create(user):
         
     try:
         new_user = UserSchema().load(user, session = db.session)
+        db.session.add(new_user)
         db.session.commit()
     except Exception as e:
         db.session.rollback()
