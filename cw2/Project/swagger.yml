@@ -130,7 +130,96 @@ components:
       schema:
         type: "integer"
 
+    point_id:
+      name: "point_id"
+      description: "ID of the point."
+      in: "path"
+      required: true
+      schema:
+        type: "integer"
+
 paths:
+
+  /point:
+
+    post:
+      operationId: "Point.create"
+      tags:
+        - "Point"
+      summary: "Create a point"
+      requestBody:
+        description: "Point to create"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Point"
+      responses:
+        "201":
+          description: "Point created successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Point"
+        "400":
+          description: "Validation error"
+
+    get:
+      operationId: "Point.read_all"
+      tags:
+        - "Point"
+      summary: "Read the list of points"
+      responses:
+        "200":
+          description: "Successfully read point list"
+
+  /point/{point_id}:
+
+    get:
+      tags:
+        - "Point"
+      operationId: "Point.read_one"
+      summary: "Read one point"
+      parameters:
+        - $ref: "#/components/parameters/point_id"
+      responses:
+        "200":
+          description: "Successfully read point"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Point"
+
+    put:
+      tags:
+        - "Point"
+      operationId: "Point.update"
+      summary: "Update a point"
+      parameters:
+        - $ref: "#/components/parameters/point_id"
+      responses:
+        "200":
+          description: "Successfully updated point"
+        "400":
+          description: "Validation error"
+        "404":
+          description: "Point not found"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Point"
+
+    delete:
+      tags:
+        - "Point"
+      operationId: "Point.delete"
+      summary: "Delete a point"
+      parameters:
+        - $ref: "#/components/parameters/point_id"
+      responses:
+        "204":
+          description: "Successfully deleted point"
 
   /trail:
 
