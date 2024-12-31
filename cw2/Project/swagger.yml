@@ -12,6 +12,8 @@ components:
 
     Feature:
       type: object
+      required:
+        - feature
       properties:
         id:
           type: integer
@@ -388,6 +390,113 @@ paths:
         "204":
           description: "Successfully deleted trail"
 
+  /trail-feature:
+
+    post:
+      operationId: "TrailFeature.create"
+      tags:
+        - "Trail-Feature Link"
+      summary: "Create a link between a Trail and a Feature"
+      requestBody:
+        description: "Link to create"
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                trail_id:
+                  type: integer
+                  description: "ID of the trail"
+                  example: 1
+                feature_id:
+                  type: integer
+                  description: "ID of the feature"
+                  example: 2
+              required:
+                - trail_id
+                - feature_id
+      responses:
+        "201":
+          description: "TrailFeature link created successfully"
+        "400":
+          description: "Validation error or duplicate link"
+
+    get:
+      operationId: "TrailFeature.read_all"
+      tags:
+        - "Trail-Feature Link"
+      summary: "Read the list of Trail-Feature links"
+      responses:
+        "200":
+          description: "Successfully read user list"
+  
+  /trail-feature/{trail_id}/{feature_id}:
+
+    get:
+      tags:
+        - "Trail-Feature Link"
+      operationId: "TrailFeature.read_one"
+      summary: "Read one Trail-Feature link"
+      parameters:
+        - $ref: "#/components/parameters/trail_id"
+        - $ref: "#/components/parameters/feature_id"
+      responses:
+        "200":
+          description: "Successfully read Trail-Feature link"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  trail_id:
+                    type: integer
+                    description: "ID of the trail"
+                  feature_id:
+                    type: integer
+                    description: "ID of the feature"
+        "404":
+          description: "TrailFeature link not found"
+    
+    put:
+      tags:
+        - "Trail-Feature Link"
+      operationId: "TrailFeature.update"
+      summary: "Update a Trail-Feature link"
+      parameters:
+        - $ref: "#/components/parameters/trail_id"
+        - $ref: "#/components/parameters/feature_id"
+      responses:
+        "200":
+          description: "Successfully updated usTrail-Feature Linker"
+        "400":
+          description: "Validation error"
+        "404":
+          description: "Trail-Feature Link not found"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                trail_id:
+                  type: integer
+                  description: "ID of the trail"
+                feature_id:
+                  type: integer
+                  description: "ID of the feature"
+
+    delete:
+      tags:
+        - "Trail-Feature Link"
+      operationId: "TrailFeature.delete"
+      summary: "Delete a Trail-Feature link"
+      parameters:
+        - $ref: "#/components/parameters/trail_id"
+        - $ref: "#/components/parameters/feature_id"
+      responses:
+        "204":
+          description: "Successfully deleted trail-feature link"
+            
   /user:
 
     post:
