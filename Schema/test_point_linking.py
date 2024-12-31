@@ -83,11 +83,9 @@ else:
 created_trail_id = response.json().get("id")
 response = requests.get(f"{trails_url}/{created_trail_id}")
 
-input()
-
 starting_point = response.json().get("starting_point_id")
 point_id = starting_point
-while True: # eek
+while point_id is not None:
     print(point_id)
     response = requests.get(f"{points_url}/{point_id}")
     point_id = response.json().get("next_point_id")
