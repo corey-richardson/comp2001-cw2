@@ -22,9 +22,17 @@ def create():
 
 
 def read_one(trail_id, feature_id):
-    link = TrailFeature.query.get_or_404(trail_id, feature_id)
+    link = TrailFeature.query.get_or_404((trail_id, feature_id))
     return TrailFeatureSchema().dump(link), 200
     
+
+def read_trail(trail_id):
+    trail_features = TrailFeature.query.filter_by(trail_id=trail_id).all()
+    if not trail_features:
+        abort(404, "No features found for the given trail.")
+    
+    features = [Feature.query.get_or_404(tf.feature_id) for tf in trail_features]
+    return FeatureSchema(many = True).dump(features), 200
 
 def read_all():
     trail_features = TrailFeature.query.all()
@@ -33,7 +41,7 @@ def read_all():
 
 def update(trail_id, feature_id):
     link = request.get_json()
-    existing_link = TrailFeature.query.get_or_404(trail_id, feature_id)
+    existing_link = TrailFeature.query.get_or_404((trail_id, feature_id))
     
     for key, value in link.items():
         if hasattr(existing_link, key):
@@ -44,7 +52,7 @@ def update(trail_id, feature_id):
     
 
 def delete(trail_id, feature_id):
-    existing_link = TrailFeature.query.get_or_404(trail_id, feature_id)
+    existing_link = TrailFeature.query.get_or_404((trail_id, feature_id))
     db.session.delete(existing_link)
     db.session.commit()
     return make_response(f"Trail feature with ID {trail_id}:{feature_id} deleted.", 204)

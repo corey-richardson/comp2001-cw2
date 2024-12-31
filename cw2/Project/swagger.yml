@@ -428,8 +428,21 @@ paths:
       summary: "Read the list of Trail-Feature links"
       responses:
         "200":
-          description: "Successfully read user list"
+          description: "Successfully read trail-feature link list"
   
+  /trail-feature/{trail_id}/features:
+
+    get:
+      tags:
+        - "Trail-Feature Link"
+      operationId: "TrailFeature.read_trail"
+      summary: "Read features linked to a given trail"
+      parameters:
+        - $ref: "#/components/parameters/trail_id"
+      responses:
+        "200":
+          description: "Successfully read trail-feature link list"
+
   /trail-feature/{trail_id}/{feature_id}:
 
     get:
