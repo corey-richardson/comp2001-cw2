@@ -33,7 +33,7 @@ def read_all():
     return UserSchema(many = True).dump(users), 200
 
 
-def update(user_id,):
+def update(user_id):
     user = request.get_json()
     existing_user = User.query.get_or_404(user_id)
     

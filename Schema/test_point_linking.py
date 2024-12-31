@@ -7,7 +7,7 @@ import requests
 # First, insert Points using the /api/points endpoint
 
 # Define the URL for the Points API endpoint
-points_url = "http://127.0.0.1:8000/api/point"
+points_url = "http://localhost:8000/api/point"
 
 # Data for each point
 points_data = [
@@ -29,7 +29,7 @@ for point_data in points_data:
 # Next, update Points with Doubly Linked List References
 
 # Define the URL for updating a Point's next/previous relationship
-update_point_url = "http://127.0.0.1:8000/api/point/"
+update_point_url = "http://localhost:8000/api/point/"
 
 # Function to update the links between points
 def update_point_link(point_id, next_point_id, previous_point_id):
@@ -54,7 +54,7 @@ update_point_link(5, 1, 4)  # Point 5
 # Finally, create the Trail using the /api/trails endpoint
 
 # Define the URL for the Trails API endpoint
-trails_url = "http://127.0.0.1:8000/api/trail"
+trails_url = "http://localhost:8000/api/trail"
 
 # Data for the trail
 trail_data = {
