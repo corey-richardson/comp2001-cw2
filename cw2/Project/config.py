@@ -1,5 +1,3 @@
-# config.py
-
 import pathlib
 import connexion
 from flask_sqlalchemy import SQLAlchemy
@@ -8,6 +6,7 @@ from flask_marshmallow import Marshmallow
 basedir = pathlib.Path(__file__).parent.resolve()
 connex_app = connexion.App(__name__, specification_dir=basedir)
 
+# Database credentials
 server = "DIST-6-505.uopnet.plymouth.ac.uk"
 database = 'COMP2001_CRichardson'
 username = "CRichardson"
@@ -27,5 +26,6 @@ app.config["SQLALCHEMY_DATABASE_URI"] = (
 
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
+# Initialise SQLAlchemy and Marshmallow in the context of the app
 db = SQLAlchemy(app)
 ma = Marshmallow(app)

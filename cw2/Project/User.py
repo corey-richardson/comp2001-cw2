@@ -1,14 +1,15 @@
-from Authentication import require_auth
+from flask import abort, make_response, request
 
+from Authentication import require_auth
 from config import db
 from models import User, UserSchema
 
-from flask import abort, make_response, request
-
 @require_auth
 def create():
+    """PROTECTED ENDPOINT: Create a new User in the database."""
     user = request.get_json()
     
+    # Check required field exists
     required_fields = ["email", "role"]
     missing_fields = [field for field in required_fields if not user.get(field)]
     if missing_fields:
@@ -26,17 +27,20 @@ def create():
 
 
 def read_one(user_id):
+    """Fetch a single User from the database, queried by it's ID, else return 404."""
     user = User.query.get_or_404(user_id)
     return UserSchema().dump(user), 200
 
     
 def read_all():
+    """Fetch all users in the database."""
     users = User.query.all()
     return UserSchema(many = True).dump(users), 200
 
 
 @require_auth
 def update(user_id):
+    """PROTECTED ENDPOINT: Update a User in the database, indicated by it's ID."""
     user = request.get_json()
     existing_user = User.query.get_or_404(user_id)
     
@@ -50,6 +54,7 @@ def update(user_id):
 
 @require_auth
 def delete(user_id):
+    """PROTECTED ENDPOINT: Delete a User from the database, indicated by it's ID."""
     existing_user = User.query.get_or_404(user_id)
     db.session.delete(existing_user)
     db.session.commit()

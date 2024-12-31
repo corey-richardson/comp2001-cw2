@@ -1,11 +1,12 @@
-from config import db, ma
-
 # https://marshmallow-sqlalchemy.readthedocs.io/en/latest/
+
+from config import db, ma
 
 from marshmallow_sqlalchemy import fields
 from marshmallow import fields, validates
           
 class Point(db.Model):
+    """Model for a point in a trail."""
     __tablename__ = "CW2.Point"
     
     id = db.Column(db.Integer, primary_key = True, autoincrement = True)
@@ -14,9 +15,6 @@ class Point(db.Model):
     latitude = db.Column(db.Numeric(9, 6), nullable = False)
     longitude = db.Column(db.Numeric(9, 6), nullable = False)
     description = db.Column(db.String(127), nullable = True)
-    
-    # latitude = fields.Float(required=False)  # Make latitude optional
-    # longitude = fields.Float(required=False)  # Make longitude optional
     
     next_point = db.relationship(
         "Point", remote_side=[id], foreign_keys=[next_point_id], backref="previous_points"
@@ -27,6 +25,7 @@ class Point(db.Model):
     
 
 class PointSchema(ma.SQLAlchemyAutoSchema):
+    """Schema for de/serialising a Point"""
     class Meta:
         model = Point
         load_instance = True
@@ -48,6 +47,7 @@ class PointSchema(ma.SQLAlchemyAutoSchema):
        
 
 class Trail(db.Model):
+    """Model for a trail."""
     __tablename__ = "CW2.Trail"
         
     id = db.Column(db.Integer, primary_key = True, autoincrement = True)
@@ -67,6 +67,7 @@ class Trail(db.Model):
     
 
 class TrailSchema(ma.SQLAlchemyAutoSchema):
+    """Schema for de/serialising a Trail"""
     class Meta:
         model = Trail
         load_instance = True
@@ -84,6 +85,7 @@ class TrailSchema(ma.SQLAlchemyAutoSchema):
         
           
 class User(db.Model):
+    """Model for a User"""
     __tablename__ = "CW2.User"
     
     id = db.Column(db.Integer, primary_key = True, autoincrement = True)
@@ -94,6 +96,7 @@ class User(db.Model):
     
 
 class UserSchema(ma.SQLAlchemyAutoSchema):
+    """Schema for de/serialising a User"""
     class Meta:
         model = User
         load_instance = True
@@ -101,6 +104,7 @@ class UserSchema(ma.SQLAlchemyAutoSchema):
       
 
 class TrailFeature(db.Model):
+    """Model for a TrailFeature"""
     __tablename__ = "CW2.TrailFeature"
     
     trail_id = db.Column(db.Integer, db.ForeignKey("CW2.Trail.id"), primary_key = True, nullable = False)
@@ -110,6 +114,7 @@ class TrailFeature(db.Model):
     
 
 class TrailFeatureSchema(ma.SQLAlchemyAutoSchema):
+    """Schema for de/serialising a TrailFeature"""
     class Meta:
         model = TrailFeature
         load_instance = True
@@ -120,6 +125,7 @@ class TrailFeatureSchema(ma.SQLAlchemyAutoSchema):
     
             
 class Feature(db.Model):
+    """Model for a feature"""
     __tablename__ = "CW2.Feature"
     
     id = db.Column(db.Integer, primary_key = True, autoincrement = True)
@@ -129,6 +135,7 @@ class Feature(db.Model):
 
 
 class FeatureSchema(ma.SQLAlchemyAutoSchema):
+    """Schema for de/serialising a Feature"""
     class Meta:
         model = Feature
         load_instance = True

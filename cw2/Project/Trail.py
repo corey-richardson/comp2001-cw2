@@ -1,13 +1,14 @@
+from flask import abort, make_response, request
+
 from Authentication import require_auth
 from config import db
 from models import Trail, TrailSchema, Point, User
-
-from flask import abort, make_response, request
 
 # https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client_error_responses
 
 @require_auth
 def create():
+    """PROTECTED ENDPOINT: Create a new Trail in the database."""
     trail = request.get_json()
     
     author_id = trail.get("author_id", None)
@@ -44,28 +45,31 @@ def create():
         
         
 def read_one(trail_id):
+    """Fetch a single Trail from the database, queried by it's ID, else return 404."""
     trail = Trail.query.get_or_404(trail_id)
     return TrailSchema().dump(trail), 200
     
 
 def read_all():
+    """Fetch all trails in the database."""
     trails = Trail.query.all()
     return TrailSchema(many = True).dump(trails), 200
 
 
 @require_auth
 def update(trail_id):
+    """PROTECTED ENDPOINT: Update a Trail in the database, indicated by it's ID."""
     trail = request.get_json()
-    
     existing_trail = Trail.query.get_or_404(trail_id)
     for key, value in trail.items():
         setattr(existing_trail, key, value)
     db.session.commit()
-    return TrailSchema().dump(existing_trail), 201
+    return TrailSchema().dump(existing_trail), 200
     
 
 @require_auth
 def delete(trail_id):
+    """PROTECTED ENDPOINT: Delete a Trail from the database, indicated by it's ID."""
     existing_trail = Trail.query.get_or_404(trail_id)
     db.session.delete(existing_trail)
     db.session.commit()

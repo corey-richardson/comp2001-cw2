@@ -1,21 +1,24 @@
+from flask import abort, make_response, request
+
 from Authentication import require_auth
 from config import db
 from models import Point, PointSchema
-from flask import abort, make_response, request
 
 @require_auth
 def create():
+    """PROTECTED ENDPOINT: Create a new Point in the database."""
     point = request.get_json()
     
     next_point_id = point.get("next_point_id")
     previous_point_id = point.get("previous_point_id")
-    description = point.get("description")
-        
+    
+    # Check required fields exists
     required_fields = ["latitude", "longitude"]
     missing_fields = [field for field in required_fields if not point.get(field)]
     if missing_fields:
         abort(400, f"Missing required fields: {', '.join(missing_fields)}")
-        
+    
+    # Validate next_point_id and previous_point_id exist if provided
     if next_point_id is not None:
         next_point = Point.query.get(next_point_id)
         if not next_point:
@@ -44,17 +47,20 @@ def create():
 
 
 def read_one(point_id):
+    """Fetch a single Point from the database, queried by it's ID, else return 404."""
     point = Point.query.get_or_404(point_id)
     return PointSchema().dump(point), 200
     
 
 def read_all():
+    """Fetch all points in the database."""
     points = Point.query.all()
     return PointSchema(many = True).dump(points), 200
 
 
 @require_auth
 def update(point_id):
+    """PROTECTED ENDPOINT: Update a Point in the database, indicated by it's ID."""
     point = request.get_json()
     existing_point = Point.query.get_or_404(point_id)
     
@@ -68,6 +74,7 @@ def update(point_id):
 
 @require_auth
 def delete(point_id):
+    """PROTECTED ENDPOINT: Delete a Point from the database, indicated by it's ID."""
     existing_point = Point.query.get_or_404(id)
     db.session.delete(existing_point)
     db.session.commit()
