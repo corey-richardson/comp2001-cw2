@@ -3,11 +3,12 @@
 # python ..\Schema\test_point_linking.py
 
 import requests
+BASE_URL = "http://localhost:8000/api/"
 
 # First, insert Points using the /api/points endpoint
 
 # Define the URL for the Points API endpoint
-points_url = "http://localhost:8000/api/point"
+points_url = BASE_URL + "point"
 
 # Data for each point
 points_data = [
@@ -29,7 +30,7 @@ for point_data in points_data:
 # Next, update Points with Doubly Linked List References
 
 # Define the URL for updating a Point's next/previous relationship
-update_point_url = "http://localhost:8000/api/point/"
+update_point_url = BASE_URL + "point"
 
 # Function to update the links between points
 def update_point_link(point_id, next_point_id, previous_point_id):
@@ -54,7 +55,7 @@ update_point_link(5, 1, 4)  # Point 5
 # Finally, create the Trail using the /api/trails endpoint
 
 # Define the URL for the Trails API endpoint
-trails_url = "http://localhost:8000/api/trail"
+trails_url = BASE_URL + "trail"
 
 # Data for the trail
 trail_data = {
@@ -93,3 +94,21 @@ while point_id is not None:
         print(point_id, "end!")
         break
     
+# Features and Trail-Feature Links
+
+FEATURE_URL = BASE_URL + "feature"
+TRAIL_FEATURE_URL = BASE_URL + "trail-feature"
+
+feature_data = {
+    "feature" : "Airport"
+}
+
+response = requests.post(FEATURE_URL, json=feature_data)
+created_feature_id = response.json().get("id")
+
+link_data = {
+    "feature_id" : created_feature_id,
+    "trail_id"   : created_trail_id
+}
+
+response = requests.post(TRAIL_FEATURE_URL, json=link_data)
