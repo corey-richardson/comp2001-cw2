@@ -11,18 +11,19 @@
 
 ### Building the Container
 
-```bash
-(cw2) C:\PATH\comp2001-cw2\cw2>docker build -t trails-api .
-(cw2) C:\PATH\comp2001-cw2\cw2>docker login
-(cw2) C:\PATH\comp2001-cw2\cw2>docker tag trails-api coreyrichardson1/trails-api
-(cw2) C:\PATH\comp2001-cw2\cw2>docker push coreyrichardson1/trails-api
+<!-- RUN FROM FROM /cw2 -->
+```bash 
+docker build -t trails-api .
+docker login
+docker tag trails-api coreyrichardson1/trails-api
+docker push coreyrichardson1/trails-api
 ```
 
 ### Pulling and Running the Container
 
 ```bash
-(cw2) C:\PATH\comp2001-cw2\cw2>docker pull coreyrichardson1/trails-api
-(cw2) C:\PATH\comp2001-cw2\cw2>docker run -p 8000:8000 coreyrichardson1/trails-api
+docker pull coreyrichardson1/trails-api
+docker run -p 8000:8000 coreyrichardson1/trails-api
 ```
 ```
  * Serving Flask app 'config'
