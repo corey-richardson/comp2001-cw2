@@ -10,6 +10,16 @@ servers:
 components:
   schemas:
 
+    Feature:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: "Unique identifier for the feature"
+        feature:
+          type: string
+          description: "Tag describing a trail"
+
     Point:
       type: object
       properties:
@@ -36,15 +46,6 @@ components:
 
     Trail:
       type: object
-      required:
-        - name
-        - summary
-        - description
-        - difficulty
-        - location
-        - length
-        - elevation_gain
-        - route_type
       properties:
         id:
           type: integer
@@ -94,9 +95,6 @@ components:
 
     User:
       type: object
-      required:
-        - email
-        - role
       properties:
         id:
           type: integer
@@ -112,6 +110,22 @@ components:
             - "USER"
 
   parameters:
+    
+    feature_id:
+      name: "feature_id"
+      description: "ID of a feature."
+      in: "path"
+      required: true
+      schema:
+        type: "integer"
+
+    point_id:
+      name: "point_id"
+      description: "ID of the point."
+      in: "path"
+      required: true
+      schema:
+        type: "integer"
 
     trail_id:
       name: "trail_id"
@@ -129,15 +143,88 @@ components:
       schema:
         type: "integer"
 
-    point_id:
-      name: "point_id"
-      description: "ID of the point."
-      in: "path"
-      required: true
-      schema:
-        type: "integer"
-
 paths:
+
+  /feature:
+
+    post:
+      operationId: "Feature.create"
+      tags:
+        - "Feature"
+      summary: "Create a feature"
+      requestBody:
+        description: "Feature to create"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Feature"
+      responses:
+        "201":
+          description: "Feature created successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Feature"
+        "400":
+          description: "Validation error"
+    
+    get:
+      operationId: "Feature.read_all"
+      tags:
+        - "Feature"
+      summary: "Read the list of features"
+      responses:
+        "200":
+          description: "Successfully read feature list"
+  
+  /feature/{feature_id}:
+
+    get:
+      tags:
+        - "Feature"
+      operationId: "Feature.read_one"
+      summary: "Read one feature"
+      parameters:
+        - $ref: "#/components/parameters/feature_id"
+      responses:
+        "200":
+          description: "Successfully read feature"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Feature"
+
+    put:
+      tags:
+        - "Feature"
+      operationId: "Feature.update"
+      summary: "Update a feature"
+      parameters:
+        - $ref: "#/components/parameters/feature_id"
+      responses:
+        "200":
+          description: "Successfully updated feature"
+        "400":
+          description: "Validation error"
+        "404":
+          description: "Point not found"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Feature"
+
+    delete:
+      tags:
+        - "Feature"
+      operationId: "Feature.delete"
+      summary: "Delete a feature"
+      parameters:
+        - $ref: "#/components/parameters/feature_id"
+      responses:
+        "204":
+          description: "Successfully deleted feature"
 
   /point:
 
