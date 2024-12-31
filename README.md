@@ -1,5 +1,12 @@
 # comp2001-cw2
 
+[![wakatime](https://wakatime.com/badge/user/55c30436-1509-4eb9-9f18-fa9b7c6060c4/project/5f7a8f4f-1835-4c5e-9247-f8f017771ee8.svg)](https://wakatime.com/@coreyrichardson/projects/ouktfmbpqg?start=2024-12-28&end=2025-01-07)
+
+![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54)
+![Flask](https://img.shields.io/badge/flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white)
+![MicrosoftSQLServer](https://img.shields.io/badge/Microsoft%20SQL%20Server-CC2927?style=for-the-badge&logo=microsoft%20sql%20server&logoColor=white)
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+
 ## Running the API via Docker
 
 ### Building the Container
