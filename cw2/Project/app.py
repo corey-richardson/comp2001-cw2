@@ -1,6 +1,4 @@
-from flask import render_template, request, jsonify
-from models import User, Trail, Point, TrailFeature, Feature
-from Authentication import require_auth
+from flask import render_template
 
 import config
 from config import db, ma

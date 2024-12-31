@@ -1,6 +1,6 @@
-from Authentication import authenticate, require_auth
+from Authentication import require_auth
 from config import db
-from models import User, UserSchema, Trail, TrailSchema, Point, PointSchema, TrailFeature, TrailFeatureSchema, Feature, FeatureSchema
+from models import TrailFeature, TrailFeatureSchema, Feature, FeatureSchema
 from flask import abort, make_response, request
 
 @require_auth

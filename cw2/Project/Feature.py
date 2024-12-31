@@ -1,6 +1,6 @@
-from Authentication import authenticate, require_auth
+from Authentication import require_auth
 from config import db
-from models import User, UserSchema, Trail, TrailSchema, Point, PointSchema, TrailFeature, TrailFeatureSchema, Feature, FeatureSchema
+from models import Feature, FeatureSchema
 from flask import abort, make_response, request
 
 @require_auth
@@ -43,7 +43,7 @@ def update(feature_id):
             setattr(existing_feature, key, value)
     
     db.session.commit()
-    return PointSchema().dump(existing_feature), 200
+    return FeatureSchema().dump(existing_feature), 200
     
 
 @require_auth
