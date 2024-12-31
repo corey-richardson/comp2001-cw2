@@ -8,7 +8,7 @@ from functools import wraps
 
 AUTH_URL = "https://web.socem.plymouth.ac.uk/COMP2001/auth/api/users"
 USER_URL = "http://localhost:8000/api/user"
-
+    
 def authenticate():
     body = request.get_json()
     
@@ -57,3 +57,29 @@ def authenticate():
         
     abort(401, "Invalid credentials")
     
+
+def validate_token():
+    auth_header = request.headers.get("Authorization")
+        
+    if not auth_header:
+        abort(401, "Missing token.")
+    if not auth_header.startswith("Bearer "):
+        abort(401, "Invalid token format.")
+
+    token = auth_header.split(" ")[1].strip()
+
+    try:
+        payload = jwt.decode(token, "SECRET_KEY_DONT_LOOK_AT_ME", algorithms = ["HS256"])
+    except jwt.ExpiredSignatureError:
+        abort(401, "Token expired")
+    except jwt.InvalidTokenError:
+        abort(401, "Invalid token")
+
+
+def require_auth(f):
+    # print(f.__name__)
+    @wraps(f)
+    def decorator(*args, **kwargs):
+        validate_token()
+        return f(*args, **kwargs)
+    return decorator    

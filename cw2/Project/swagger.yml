@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   title: "COMP2000 CW2 API"
-  description: "Trail Service API developed for COMP2000 CW2 by Corey Richardson"
+  description: "Trail Service API developed for COMP2000 CW2 by Corey Richardson. <br><br>Testing of Create, Update and Delete methods should be tested via a software such as Postman as these require an `Authorization` header to be included in the request. <br><br> Firstly,  use the `Authentication` endpoint to generate a JWT token and then include this as the `Authorization` header in the format `Bearer <TOKEN>`. This token will expire after an hour."
   version: "1.0.0"
 
 servers:
@@ -18,6 +18,7 @@ components:
         id:
           type: integer
           description: "Unique identifier for the feature"
+          readOnly: true
         feature:
           type: string
           description: "Tag describing a trail"
@@ -28,6 +29,7 @@ components:
         id:
           type: integer
           description: "Unique identifier for the point."
+          readOnly: true
         next_point_id:
           type: integer
           description: "Unique identifier for the next point. Points follow a doubly-linked list structure."
@@ -52,6 +54,7 @@ components:
         id:
           type: integer
           description: "Unique identifier for the trail."
+          readOnly: true
         author_id:
           type: integer
           description: "Unique identifier for the author of the trail."
@@ -101,6 +104,7 @@ components:
         id:
           type: integer
           description: "Unique identifier for the user."
+          readOnly: true
         email:
           type: string
           description: "Email address of the user"

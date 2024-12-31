@@ -1,4 +1,4 @@
-from Authentication import authenticate
+from Authentication import authenticate, require_auth
 from config import db
 from models import User, UserSchema, Trail, TrailSchema, Point, PointSchema, TrailFeature, TrailFeatureSchema, Feature, FeatureSchema
 
@@ -6,6 +6,7 @@ from flask import abort, make_response, request
 
 # https://developer.mozilla.org/en-US/docs/Web/HTTP/Status#client_error_responses
 
+@require_auth
 def create():
     trail = request.get_json()
     
@@ -52,6 +53,7 @@ def read_all():
     return TrailSchema(many = True).dump(trails), 200
 
 
+@require_auth
 def update(trail_id):
     trail = request.get_json()
     
@@ -62,6 +64,7 @@ def update(trail_id):
     return TrailSchema().dump(existing_trail), 201
     
 
+@require_auth
 def delete(trail_id):
     existing_trail = Trail.query.get_or_404(trail_id)
     db.session.delete(existing_trail)

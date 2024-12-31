@@ -1,8 +1,9 @@
-from Authentication import authenticate
+from Authentication import authenticate, require_auth
 from config import db
 from models import User, UserSchema, Trail, TrailSchema, Point, PointSchema, TrailFeature, TrailFeatureSchema, Feature, FeatureSchema
 from flask import abort, make_response, request
 
+@require_auth
 def create():
     trail_feature = request.get_json()
     
@@ -39,6 +40,7 @@ def read_all():
     return TrailFeatureSchema(many = True).dump(trail_features), 200
 
 
+@require_auth
 def update(trail_id, feature_id):
     link = request.get_json()
     existing_link = TrailFeature.query.get_or_404((trail_id, feature_id))
@@ -51,6 +53,7 @@ def update(trail_id, feature_id):
     return TrailFeatureSchema().dump(existing_link), 200
     
 
+@require_auth
 def delete(trail_id, feature_id):
     existing_link = TrailFeature.query.get_or_404((trail_id, feature_id))
     db.session.delete(existing_link)

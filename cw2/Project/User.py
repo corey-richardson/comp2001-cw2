@@ -1,9 +1,11 @@
-from Authentication import authenticate
+from Authentication import authenticate, require_auth
+
 from config import db
 from models import User, UserSchema, Trail, TrailSchema, Point, PointSchema, TrailFeature, TrailFeatureSchema, Feature, FeatureSchema
 
 from flask import abort, make_response, request
 
+@require_auth
 def create():
     user = request.get_json()
     
@@ -33,6 +35,7 @@ def read_all():
     return UserSchema(many = True).dump(users), 200
 
 
+@require_auth
 def update(user_id):
     user = request.get_json()
     existing_user = User.query.get_or_404(user_id)
@@ -44,7 +47,8 @@ def update(user_id):
     db.session.commit()
     return UserSchema().dump(existing_user), 201
 
-    
+
+@require_auth
 def delete(user_id):
     existing_user = User.query.get_or_404(user_id)
     db.session.delete(existing_user)
