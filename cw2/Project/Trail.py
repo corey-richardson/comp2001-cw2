@@ -1,4 +1,4 @@
-from authentication import authenticate
+from Authentication import authenticate
 from config import db
 from models import User, UserSchema, Trail, TrailSchema, Point, PointSchema, TrailFeature, TrailFeatureSchema, Feature, FeatureSchema
 
