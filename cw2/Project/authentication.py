@@ -51,10 +51,10 @@ if __name__ == "__main__":
     for email, password in test_users.items():
         exp_pass_result = authenticate(email, password)
     
-    exp_fail_resilt = authenticate("corey@gmail.com", "Password1!")
+    exp_fail_result = authenticate("corey@gmail.com", "Password1!")
     
     # If an AssertionError is raised, there's a problem with the authenticator!
     # "Authentication failed." print statement does not indicate a problem, this is expected behaviour.
     assert exp_pass_result == True
-    assert exp_fail_resilt == False
+    assert exp_fail_result == False
     

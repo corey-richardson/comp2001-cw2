@@ -13,7 +13,7 @@ def create():
     required_fields = ["latitude", "longitude"]
     missing_fields = [field for field in required_fields if not point.get(field)]
     if missing_fields:
-        abort(400, f"Missing required fields: {', '.join(missing_fields)}")   
+        abort(400, f"Missing required fields: {', '.join(missing_fields)}")
         
     if next_point_id is not None:
         next_point = Point.query.get(next_point_id)
