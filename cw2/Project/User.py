@@ -26,12 +26,14 @@ def create():
     return UserSchema().dump(new_user), 201
 
 
+@require_auth
 def read_one(user_id):
     """Fetch a single User from the database, queried by it's ID, else return 404."""
     user = User.query.get_or_404(user_id)
     return UserSchema().dump(user), 200
 
-    
+
+@require_auth
 def read_all():
     """Fetch all users in the database."""
     users = User.query.all()
