@@ -40,18 +40,7 @@ def authenticate():
         try:
             json_response = response.json()
             
-            if json_response[1] == "True":
-                # Add user to the server database with an ADMIN role
-                user_data = {
-                    "email" : body["email"],
-                    "role"  : "ADMIN"
-                }
-                
-                try:
-                    response = requests.post(USER_URL, json=user_data)
-                except Exception as e:
-                    print("Failed to add new user: ", str(e))
-                
+            if json_response[1] == "True":             
                 # Generate a JWT Token
                 expiration = datetime.now(timezone.utc) + timedelta(hours=1)
                 payload = {
@@ -60,12 +49,29 @@ def authenticate():
                 }
                 
                 token = jwt.encode(payload, SECRET_KEY, algorithm = "HS256")
-                return {"token" : token}, 200
             
         except requests.JSONDecodeError:
             abort(500, f"Error processing authentication response: {str(e)}")
+            
+        # Add user to the server database with an ADMIN role
+        user_data = {
+            "email" : body["email"],
+            "role"  : "ADMIN"
+        }
         
-    abort(401, "Invalid credentials")
+        auth_header = {
+            "Authorization" : "Bearer " + token
+        }
+        
+        try:
+            response = requests.post(USER_URL, json=user_data, headers=auth_header)
+        except Exception as e:
+            print("Failed to add new user: ", str(e))
+            
+    else:  
+        abort(401, "Invalid credentials")
+    
+    return {"token" : token}, 200
     
 
 def validate_token():
