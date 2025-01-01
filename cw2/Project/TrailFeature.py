@@ -23,6 +23,8 @@ def create():
     except Exception as e:
         db.session.rollback()
         abort(500, f"Error creating trail-feature link: {str(e)}")
+        
+    return TrailFeatureSchema().dump(trail_feature), 201
 
 
 def read_one(trail_id, feature_id):

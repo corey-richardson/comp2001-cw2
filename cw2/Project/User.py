@@ -49,7 +49,7 @@ def update(user_id):
             setattr(existing_user, key, value)
         
     db.session.commit()
-    return UserSchema().dump(existing_user), 201
+    return UserSchema().dump(existing_user), 200
 
 
 @require_auth

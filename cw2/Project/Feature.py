@@ -25,7 +25,7 @@ def create():
         db.session.rollback()
         abort(500, f"Error creating feature: {str(e)}")
         
-    return FeatureSchema().dump(feature), 200
+    return FeatureSchema().dump(feature), 201
 
 
 def read_one(feature_id):

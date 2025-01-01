@@ -183,10 +183,12 @@ paths:
                   token:
                     type: string
                     description: "JWT token for authentication"
-        "401":
-          description: "Invalid credentials"
         "400":
           description: "Invalid request payload"
+        "401":
+          description: "Invalid credentials"
+        "500":
+          description: "Failed to authenticate"
 
   /feature:
 
@@ -210,8 +212,11 @@ paths:
               schema:
                 $ref: "#/components/schemas/Feature"
         "400":
-          description: "Validation error"
-    
+          description: "Missing required fields"
+        "401":
+          description: "Missing, invalid or expired authentication token"
+        "500":
+          description: "Error creating feature"
     get:
       operationId: "Feature.read_all"
       tags:
@@ -237,7 +242,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Feature"
-
+        "404":
+          description: "Feature not found"
     put:
       tags:
         - "Feature"
@@ -248,16 +254,15 @@ paths:
       responses:
         "200":
           description: "Successfully updated feature"
-        "400":
-          description: "Validation error"
+        "401":
+          description: "Missing, invalid or expired authentication token"
         "404":
-          description: "Point not found"
+          description: "Feature not found"
       requestBody:
         content:
           application/json:
             schema:
               $ref: "#/components/schemas/Feature"
-
     delete:
       tags:
         - "Feature"
@@ -268,7 +273,11 @@ paths:
       responses:
         "204":
           description: "Successfully deleted feature"
-
+        "401":
+          description: "Missing, invalid or expired authentication token"
+        "404":
+          description: "Feature not found"
+        
   /point:
 
     post:
@@ -291,8 +300,13 @@ paths:
               schema:
                 $ref: "#/components/schemas/Point"
         "400":
-          description: "Validation error"
-
+          description: "Missing required fields"
+        "401":
+          description: "Missing, invalid or expired authentication token"
+        "404":
+          description: "Point not found (Foreign Key Constraint)"
+        "500":
+          description: "Error creating point"
     get:
       operationId: "Point.read_all"
       tags:
@@ -301,6 +315,7 @@ paths:
       responses:
         "200":
           description: "Successfully read point list"
+
 
   /point/{point_id}:
 
@@ -318,7 +333,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Point"
-
+        "404":
+          description: "Point not found"
     put:
       tags:
         - "Point"
@@ -329,8 +345,8 @@ paths:
       responses:
         "200":
           description: "Successfully updated point"
-        "400":
-          description: "Validation error"
+        "401":
+          description: "Missing, invalid or expired authentication token"
         "404":
           description: "Point not found"
       requestBody:
@@ -338,7 +354,6 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/Point"
-
     delete:
       tags:
         - "Point"
@@ -349,6 +364,11 @@ paths:
       responses:
         "204":
           description: "Successfully deleted point"
+        "401":
+          description: "Missing, invalid or expired authentication token"
+        "404":
+          description: "Point not found"
+        
 
   /trail:
 
@@ -372,8 +392,11 @@ paths:
               schema:
                 $ref: "#/components/schemas/Trail"
         "400":
-          description: "Validation error"
-
+          description: "Missing required fields"
+        "401":
+          description: "Missing, invalid or expired authentication token"
+        "404":
+          description: "User or Point not found (Foreign Key Constraint)"
     get:
       operationId: "Trail.read_all"
       tags:
@@ -399,7 +422,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Trail"
-
+        "404":
+          description: "Trail not found"
     put:
       tags:
         - "Trail"
@@ -410,8 +434,8 @@ paths:
       responses:
         "200":
           description: "Successfully updated trail"
-        "400":
-          description: "Validation error"
+        "401":
+          description: "Missing, invalid or expired authentication token"
         "404":
           description: "Trail not found"
       requestBody:
@@ -419,7 +443,6 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/Trail"
-
     delete:
       tags:
         - "Trail"
@@ -430,6 +453,10 @@ paths:
       responses:
         "204":
           description: "Successfully deleted trail"
+        "401":
+          description: "Missing, invalid or expired authentication token"
+        "404":
+          description: "Trail not found"
 
   /trail-feature:
 
@@ -460,8 +487,11 @@ paths:
         "201":
           description: "TrailFeature link created successfully"
         "400":
-          description: "Validation error or duplicate link"
-
+          description: "Missing required fields"
+        "401":
+          description: "Missing, invalid or expired authentication token"
+        "500":
+          description: "Error creating trail-feature link"
     get:
       operationId: "TrailFeature.read_all"
       tags:
@@ -470,6 +500,8 @@ paths:
       responses:
         "200":
           description: "Successfully read trail-feature link list"
+        "404":
+          description: "Trail-Feature link not found"
   
   /trail-feature/{trail_id}/features:
 
@@ -483,6 +515,8 @@ paths:
       responses:
         "200":
           description: "Successfully read trail-feature link list"
+        "404":
+          description: "Trail or features not found"
 
   /trail-feature/{trail_id}/{feature_id}:
 
@@ -509,8 +543,7 @@ paths:
                     type: integer
                     description: "ID of the feature"
         "404":
-          description: "TrailFeature link not found"
-    
+          description: "Trail-Feature link not found"
     put:
       tags:
         - "Trail-Feature Link"
@@ -521,9 +554,9 @@ paths:
         - $ref: "#/components/parameters/feature_id"
       responses:
         "200":
-          description: "Successfully updated usTrail-Feature Linker"
-        "400":
-          description: "Validation error"
+          description: "Successfully updated Trail-Feature link"
+        "401":
+          description: "Missing, invalid or expired authentication token"
         "404":
           description: "Trail-Feature Link not found"
       requestBody:
@@ -538,7 +571,6 @@ paths:
                 feature_id:
                   type: integer
                   description: "ID of the feature"
-
     delete:
       tags:
         - "Trail-Feature Link"
@@ -550,6 +582,10 @@ paths:
       responses:
         "204":
           description: "Successfully deleted trail-feature link"
+        "401":
+          description: "Missing, invalid or expired authentication token"
+        "404":
+          description: "Trail-Feature link not found"
             
   /user:
 
@@ -573,8 +609,11 @@ paths:
               schema:
                 $ref: "#/components/schemas/User"
         "400":
-          description: "Validation error"
-    
+          description: "Missing required fields"
+        "401":
+          description: "Missing, invalid or expired authentication token"
+        "500":
+          description: "Error creating new user"
     get:
       operationId: "User.read_all"
       tags:
@@ -600,7 +639,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/User"
-
     put:
       tags:
         - "User"
@@ -611,8 +649,8 @@ paths:
       responses:
         "200":
           description: "Successfully updated user"
-        "400":
-          description: "Validation error"
+        "401":
+          description: "Missing, invalid or expired authentication token"
         "404":
           description: "User not found"
       requestBody:
@@ -631,3 +669,7 @@ paths:
       responses:
         "204":
           description: "Successfully deleted user"
+        "401":
+          description: "Missing, invalid or expired authentication token"
+        "404":
+          description: "User not found"
