@@ -57,7 +57,7 @@ def update(feature_id):
 @require_auth
 def delete(feature_id):
     """PROTECTED ENDPOINT: Delete a Feature from the database, indicated by it's ID."""
-    existing_feature = Feature.query.get_or_404(id)
+    existing_feature = Feature.query.get_or_404(feature_id)
     db.session.delete(existing_feature)
     db.session.commit()
     return make_response(f"Feature with ID {feature_id} deleted.", 204)

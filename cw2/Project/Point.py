@@ -75,7 +75,7 @@ def update(point_id):
 @require_auth
 def delete(point_id):
     """PROTECTED ENDPOINT: Delete a Point from the database, indicated by it's ID."""
-    existing_point = Point.query.get_or_404(id)
+    existing_point = Point.query.get_or_404(point_id)
     db.session.delete(existing_point)
     db.session.commit()
     return make_response(f"Point with ID {point_id} deleted.", 204)
