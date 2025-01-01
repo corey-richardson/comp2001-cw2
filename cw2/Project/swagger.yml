@@ -7,9 +7,22 @@ info:
 servers:
   - url: "/api"
 
+tags:
+  - name: "Authentication"
+    description: "Endpoints related to user authentication."
+  - name: "Feature"
+    description: "Endpoints related to features."
+  - name: "Point"
+    description: "Endpoints related to points."
+  - name: "Trail"
+    description: "Endpoints related to trails."
+  - name: "Trail-Feature Link"
+    description: "Endpoints linking trails and features."
+  - name: "User"
+    description: "Endpoints related to users."
+
 components:
   schemas:
-
     Feature:
       type: object
       required:
@@ -22,7 +35,6 @@ components:
         feature:
           type: string
           description: "Tag describing a trail"
-
     Point:
       type: object
       properties:
@@ -47,7 +59,6 @@ components:
         description:
           type: string
           description: "Description of the point."
-
     Trail:
       type: object
       properties:
@@ -97,7 +108,6 @@ components:
             - "Out & back"
             - "Point to point"
       description: "A trail that describes a route with various properties. Combination of name and location must be unique."
-
     User:
       type: object
       properties:
@@ -116,7 +126,6 @@ components:
             - "USER"
 
   parameters:
-    
     feature_id:
       name: "feature_id"
       description: "ID of a feature."
@@ -124,7 +133,6 @@ components:
       required: true
       schema:
         type: "integer"
-
     point_id:
       name: "point_id"
       description: "ID of the point."
@@ -132,7 +140,6 @@ components:
       required: true
       schema:
         type: "integer"
-
     trail_id:
       name: "trail_id"
       description: "ID of the trail."
@@ -140,7 +147,6 @@ components:
       required: true
       schema:
         type: "integer"
-
     user_id:
       name: "user_id"
       description: "ID of the user."
@@ -150,7 +156,6 @@ components:
         type: "integer"
 
 paths:
-
   /login:
     post:
       operationId: "Authentication.authenticate"
@@ -189,9 +194,7 @@ paths:
           description: "Invalid credentials"
         "500":
           description: "Failed to authenticate"
-
   /feature:
-
     post:
       operationId: "Feature.create"
       tags:
@@ -225,9 +228,7 @@ paths:
       responses:
         "200":
           description: "Successfully read feature list"
-  
   /feature/{feature_id}:
-
     get:
       tags:
         - "Feature"
@@ -276,10 +277,8 @@ paths:
         "401":
           description: "Missing, invalid or expired authentication token"
         "404":
-          description: "Feature not found"
-        
+          description: "Feature not found"  
   /point:
-
     post:
       operationId: "Point.create"
       tags:
@@ -315,10 +314,7 @@ paths:
       responses:
         "200":
           description: "Successfully read point list"
-
-
   /point/{point_id}:
-
     get:
       tags:
         - "Point"
@@ -368,10 +364,7 @@ paths:
           description: "Missing, invalid or expired authentication token"
         "404":
           description: "Point not found"
-        
-
   /trail:
-
     post:
       operationId: "Trail.create"
       tags:
@@ -405,9 +398,7 @@ paths:
       responses:
         "200":
           description: "Successfully read trail list"
-
   /trail/{trail_id}:
-
     get:
       tags:
         - "Trail"
@@ -457,9 +448,7 @@ paths:
           description: "Missing, invalid or expired authentication token"
         "404":
           description: "Trail not found"
-
   /trail-feature:
-
     post:
       operationId: "TrailFeature.create"
       tags:
@@ -502,9 +491,7 @@ paths:
           description: "Successfully read trail-feature link list"
         "404":
           description: "Trail-Feature link not found"
-  
   /trail-feature/{trail_id}/features:
-
     get:
       tags:
         - "Trail-Feature Link"
@@ -517,9 +504,7 @@ paths:
           description: "Successfully read trail-feature link list"
         "404":
           description: "Trail or features not found"
-
   /trail-feature/{trail_id}/{feature_id}:
-
     get:
       tags:
         - "Trail-Feature Link"
@@ -585,10 +570,8 @@ paths:
         "401":
           description: "Missing, invalid or expired authentication token"
         "404":
-          description: "Trail-Feature link not found"
-            
+          description: "Trail-Feature link not found"          
   /user:
-
     post:
       operationId: "User.create"
       tags:
@@ -622,9 +605,7 @@ paths:
       responses:
         "200":
           description: "Successfully read user list"
-
   /user/{user_id}:
-
     get:
       tags:
         - "User"
@@ -658,7 +639,6 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/User"
-
     delete:
       tags:
         - "User"
