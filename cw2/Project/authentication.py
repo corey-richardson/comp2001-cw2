@@ -49,6 +49,8 @@ def authenticate():
                 }
                 
                 token = jwt.encode(payload, SECRET_KEY, algorithm = "HS256")
+            else:
+                abort(401, "Invalid credentials")
             
         except requests.JSONDecodeError:
             abort(500, f"Error processing authentication response: {str(e)}")
@@ -68,10 +70,10 @@ def authenticate():
         except Exception as e:
             print("Failed to add new user: ", str(e))
             
+        return {"token" : token}, 200
+            
     else:  
         abort(401, "Invalid credentials")
-    
-    return {"token" : token}, 200
     
 
 def validate_token():

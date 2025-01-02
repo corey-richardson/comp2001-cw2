@@ -1,4 +1,4 @@
-# comp2001-cw2
+# comp2001-cw2: TrailService API
 
 [![wakatime](https://wakatime.com/badge/user/55c30436-1509-4eb9-9f18-fa9b7c6060c4/project/5f7a8f4f-1835-4c5e-9247-f8f017771ee8.svg)](https://wakatime.com/@coreyrichardson/projects/ouktfmbpqg?start=2024-12-28&end=2025-01-07)
 
@@ -6,6 +6,15 @@
 ![Flask](https://img.shields.io/badge/flask-%23000.svg?style=for-the-badge&logo=flask&logoColor=white)
 ![MicrosoftSQLServer](https://img.shields.io/badge/Microsoft%20SQL%20Server-CC2927?style=for-the-badge&logo=microsoft%20sql%20server&logoColor=white)
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
+
+- Docker Container Name: `coreyrichardson1/trails-api`
+- [Docker Hub Link](https://hub.docker.com/r/coreyrichardson1/trails-api)
+- [WakaTime Project Time Tracker](https://wakatime.com/@coreyrichardson/projects/ouktfmbpqg?start=2024-12-28&end=2025-01-07)
+- [WakaTime Git Commits](https://wakatime.com/@coreyrichardson/projects/ouktfmbpqg/commits)
+- [Software Test Document](/Report/SoftwareTestDocument.pdf)
+
+The application is a web-service RESTful API and micro-service that could be used in a larger context to enable users to explore and manage information about walking trails, in a similar manner as is done on alltrails.com.
+The system implements a micro-service architecture and is therefore modular, allowing it to be extending or integrated into other services in a larger context with ease. The use of a RESTful API means that the service can be easily accessed through HTTP requests, allowing it to easily interact with other services.
 
 ## Running the API via Docker
 
