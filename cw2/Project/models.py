@@ -77,6 +77,12 @@ class TrailSchema(ma.SQLAlchemyAutoSchema):
     starting_point_id = fields.Int(allow_none=True)
     
     # https://docs.sqlalchemy.org/en/20/orm/mapped_attributes.html
+    @validates("difficulty")
+    def validate_difficulty(self, value):
+        valid_difficulties = ["Easy", "Moderate", "Hard"]
+        if value not in valid_difficulties:
+            raise ValueError(f"Failed Difficulty Validation: {value}. Must be in {valid_difficulties}")
+            
     @validates("route_type")
     def validate_route_type(self, value):
         valid_routes = ["Loop", "Out & back", "Point to point"]
